@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  fetch('http://194.87.235.153:8000/tag_api/api/tag/?format=json')
+  fetch('http://194.87.235.153/tag_api/api/tag/?format=json')
   .then(response => response.json())
   .then(data => {
       const dropdown = document.getElementById('tagSelect');
