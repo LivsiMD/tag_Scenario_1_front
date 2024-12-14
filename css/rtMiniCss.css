@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&family=Permanent+Marker&family=Play:wght@400;700&display=swap');
+
+body {
+    font-family: "Play", sans-serif;
+    color: black;
+    margin: auto;
+    padding-top: 2%;
+    padding-left: 3%;
+    padding-right: 3%;
+    border: 1px outset #FEFFF7;
+}
+
+body.white_theme {
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(66,66,66,1) 100%);
+}
+
+#menu_button {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    text-decoration: none;
+    color: inherit;
+}
+
+#checkbox_text {
+    color: aliceblue; 
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+#tag_content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    margin-top: 3%;
+}
+
+#descriptionSpan {
+    color: aliceblue;
+}
+
+#output_text {
+    color: aliceblue;
+}
+
+#news_content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    color: aliceblue;
+    font-size: 14px;
+}
+
+#final_comment_main {
+    display: flex;
+    width: 100%; /* устанавливаем ширину контейнера по ширине родителя */
+    flex-direction: row; /* устанавливаем направление основной оси в строку (горизонтальное) */
+    margin-left: 20px;
+}
+
+#final_comment, #final_comment_tag {
+    flex: 1; /* равномерно распределяет доступное пространство между вложенными элементами */
+    width: 50%; /* устанавливаем ширину каждого элемента в 50% ширины контейнера */
+}
+
+#final_comment {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    color: aliceblue;
+    margin-top: 2%;
+    margin-right: 2%;
+}
+
+#final_comment_tag {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    color: aliceblue;
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+#fc_copy_button {
+    margin-top: 5%;
+}
+
+#fc_copy_clear {
+    margin-top: 5%;
+    height: 100%;
+}
+
+#table_contact {
+    font-size: 11px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+}
+
+#final_tag_info {
+    margin-bottom: 0;
+    padding: 0;
+}
+
+#final_tag {
+    margin-top: 0;
+}
+
+.styled-table {
+    font-size: 13px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2%;
+  }
+  
+  .styled-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    background-color: #333; /* устанавливаем фон для всех ячеек */
+    color: white; /* устанавливаем цвет текста */
+  }
+  
+  .styled-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .styled-table th {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+  }

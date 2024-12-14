@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/rtMiniCss.css">
+    <title>Тегирование</title>
+</head>
+<body class="white_theme" style="min-width: 370px; min-height: 480px;">
+
+
+    <div id="tag_content">
+        <label id="checkbox_text">
+            <input id="checkbox_changes" type="checkbox" name="agree" value="yes">
+            #ХолостойНа2ЛТП
+        </label>
+        <select id="tagSelect" class="form-select" aria-label=".form-select-sm exampl"></select>
+        <div id="tag_viem">
+            <input type="datetime-local" id="tag_data_time">
+            <input type="text" id="tag_phone" placeholder="9302730016">
+        </div>
+
+        <p id="descriptionSpan"></p>
+
+        <textarea name="main_text" id="tag_text" class="form-control" placeholder="Напиши сюда комментарий"></textarea>
+      
+        <label id="output_text" for="output">Сгенерированное обращение:</label>
+        <textarea id="output" class="form-control" readonly></textarea>
+        
+        <button id="tag_copy" class="btn btn-secondary">Копировать</button>
+
+    </div>
+
+    <script src="/js/rtTagMini.js"></script>
+
+</body>
+</html>
