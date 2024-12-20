@@ -1,4 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
+    loadData();
+
+    const checkbox_fail_viem = document.getElementById('checkbox_changes');
+    checkbox_fail_viem.addEventListener('change', toggleSelect); // Привязываем обработчик к чекбоксу
+});
+
+function toggleSelect() {
+    const checkbox_fail_viem = document.getElementById('checkbox_changes');
+    const fail_select = document.getElementById('fail_tag');
+    console.log(fail_select);
+    console.log(checkbox_fail_viem);
+    console.log('Checkbox checked:', checkbox_fail_viem.checked);
+
+    // Управляем только видимостью селекта в зависимости от состояния чекбокса
+    if (checkbox_fail_viem.checked) {
+        console.log('Displaying select');
+        fail_select.style.display = 'block'; // Показываем селект
+    } else {
+        console.log('Hiding select');
+        fail_select.style.display = 'none'; // Скрываем селект
+    }
+}
+
+async function loadData() {
+    const fail_select = document.getElementById('fail_tag');
+    
+    try {
+        const response = await fetch('http://194.87.235.153/tag_api/api/tag/?format=json');
+        const data = await response.json();
+        
+        // Очистить предыдущие элементы в select
+        fail_select.innerHTML = '';
+        
+        // Добавляем только те значения, где столбец "fault" (булевое значение) равно TRUE
+        data.forEach(item => {
+            if (item.fault === true) {
+                const option = document.createElement('option');
+                option.value = item.main_text; // Значение для выбора из второго столбца
+                option.textContent = item.main_text; // Текст отображаемый в списке
+                fail_select.appendChild(option);
+            }
+        });
+        
+    } catch (error) {
+        console.error('Ошибка при загрузке данных:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
   fetch('http://194.87.235.153/tag_api/api/tag/?format=json')
   .then(response => response.json())
   .then(data => {

@@ -141,3 +141,8 @@ button {
     color: white;
     font-weight: bold;
   }
+
+#fail_tag {
+    display: none;
+    margin-bottom: 10px;
+}
