@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Tag Generator",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Тегирование заявок 2ЛТП.",
     "action": {
       "default_popup": "popup.html",
