@@ -1,3 +1,4 @@
+//Обработка Select с ошибкой 1 ЛТП (Холостой на 2 ЛТП)
 document.addEventListener('DOMContentLoaded', function() {
     loadData();
 
@@ -47,6 +48,7 @@ async function loadData() {
     }
 }
 
+// Обработчик для Select с ошщим тегом
 document.addEventListener('DOMContentLoaded', function() {
     fetch('http://194.87.235.153/tag_api/api/tag/?format=json')
     .then(response => response.json())
@@ -55,15 +57,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const description = document.getElementById('descriptionSpan');
         const ago_date = document.getElementById('tag_data_time');
         const ago_phone = document.getElementById('tag_phone');
+        const sale_name = document.getElementById('sale_name');
         ago_phone.style.display = "none";
         ago_date.style.display = "none";
+        sale_name.style.display = "none";
   
         // Добавляем опцию по умолчанию
         const defaultOption = document.createElement('option');
         defaultOption.text = "Выберите тег";
         defaultOption.value = "";
         defaultOption.selected = true; // Делаем эту опцию выбранной по умолчанию
-        defaultOption.disabled = true; // Делаем эту опцию недоступной для выбора
         dropdown.add(defaultOption);
   
         // Заполнение выпадающего списка
@@ -96,6 +99,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     ago_phone.style.display = "none"; // Скрыть элемент для ввода номера телефона
                 }
+
+                if (selectedTag.main_text === "продажа2ЛТП") {
+                    sale_name.style.display = "block";
+                } else {
+                    sale_name.style.display = "none";
+                }
             } else {
                 // Если выбранный элемент не найден, очищаем описание и скрываем поля
                 description.textContent = 'Выберите тег'; // Сообщение по умолчанию
@@ -110,17 +119,38 @@ document.addEventListener('DOMContentLoaded', function() {
 //обработчик Сгенерированого комментария
 function updateGeneratedComment() {
   let level1 = "";
-  const level2 = document.getElementById('tagSelect').value;
+  let level2 = document.getElementById('tagSelect').value;
   const comment = document.getElementById('tag_text').value;
   const fail_select = document.getElementById('fail_tag').value;
   const checkbox_fail_com = document.getElementById('checkbox_changes');
+  const tag_data_time = document.getElementById("tag_data_time").value;
+  const date = new Date(tag_data_time);
+  const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+  const formattedDate = date.toLocaleString('ru-RU', options).replace(',', '');
+  const tag_phone = document.getElementById("tag_phone").value;
+  const sale_name = document.getElementById('sale_name').value;
 
   if (checkbox_fail_com.checked){
     level1 = "#ХолостойНа2ЛТП" + ` #${fail_select} `;
   }
-  
+
+  if (level2 === "аго_время") {
+    level2 =`${level2} ${formattedDate}`
+  } else if (level2 === "аго_номер") {
+    level2 = `${level2} ${tag_phone}`
+  } else if (level2 === "продажа2ЛТП ") {
+    level2 = `${level2}`
+  }
+
   // Формирование единого комментария
-  const output = `${level1} #${level2} ${comment}`;
+  let output = `${level1} #${level2} ${comment}`;
+
+  if (level2 === "") {
+    output = `${level1} ${comment}`;
+  } else if (level2 === "продажа2ЛТП") {
+    output = `#${level2} ${comment} ФИО агента:${sale_name}` + " Требуется на выезд взять с собой  и при устранении проблемы установить и настроить это оборудование и заполнить документы для продажи 2ЛТП. Тип реализации (продажа)."; 
+  }
+
   document.getElementById('output').value = output; // Обновление поля "Сгенерированное обращение"
 }
 
@@ -129,6 +159,9 @@ document.getElementById('checkbox_text').addEventListener('change', updateGenera
 document.getElementById('tagSelect').addEventListener('change', updateGeneratedComment);
 document.getElementById('tag_text').addEventListener('input', updateGeneratedComment);
 document.getElementById('fail_tag').addEventListener('input', updateGeneratedComment);
+document.getElementById('tag_data_time').addEventListener('input', updateGeneratedComment);
+document.getElementById('tag_phone').addEventListener('input', updateGeneratedComment);
+document.getElementById('sale_name').addEventListener('input', updateGeneratedComment);
 
 
 //обработчик конопки копирования
@@ -139,8 +172,10 @@ document.getElementById("tag_copy").addEventListener("click", function() {
     const tag_phone = document.getElementById("tag_phone").value;
     const tag_data_time = document.getElementById("tag_data_time").value;
     const fail_select = document.getElementById('fail_tag').value;
+    const sale_name = document.getElementById('sale_name').value;
 
-    let tag_comment = `#${tag_main} ${main_text}`; // Здесь будем формировать итоговый комментарий
+    const tag_comment_base = `${tag_main} ${main_text}`
+    let tag_comment = "#" + `${tag_comment_base}`; // Здесь будем формировать итоговый комментарий
 
     if (tag_main === "аго_время") {
         const date = new Date(tag_data_time);
@@ -149,12 +184,16 @@ document.getElementById("tag_copy").addEventListener("click", function() {
         tag_comment = `#${tag_main} ${formattedDate} ${main_text}`;
     } else if (tag_main === "аго_номер") {
         tag_comment = `#${tag_main} ${tag_phone} ${main_text}`;
+    } else if (tag_main === "продажа2ЛТП") {
+        tag_comment = `#${tag_main} ФИО агента: ${sale_name} Требуется на выезд взять с собой ${main_text} и при устранении проблемы установить и настроить это оборудование и заполнить документы для продажи 2ЛТП. Тип реализации (продажа).`; 
+    } else if (checkbox_fail.checked && tag_main === "") {
+        tag_comment = "#ХолостойНа2ЛТП" + ` #${fail_select} ${main_text}`;
     }
 
     // Проверяем состояние чекбокса и модифицируем комментарий
-    if (checkbox_fail.checked) {
-        tag_comment = "#ХолостойНа2ЛТП " + fail_select + tag_comment;
-    }
+    if (checkbox_fail.checked && tag_main !== "") {
+        tag_comment = "#ХолостойНа2ЛТП" + ` #${fail_select} ${tag_comment}`;
+    } 
 
     // Копируем итоговый комментарий в буфер обмена
     navigator.clipboard.writeText(tag_comment)
